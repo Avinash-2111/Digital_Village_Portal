@@ -1,0 +1,309 @@
+﻿@model List<MyVillageApp.Models.Admin.FamilyListModel>
+
+@{
+
+    ViewData["Title"] = "Families";
+
+    var currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+    var totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 0;
+    var searchText = ViewBag.SearchText != null ? ViewBag.SearchText.ToString() : "";
+    var totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : 0;
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .families-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .families-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 6px;
+    }
+
+    .families-subtitle {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .families-card {
+        border: none;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .search-bar-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+    }
+
+    .family-table {
+        min-width: 1100px;
+        margin-bottom: 0;
+    }
+
+        .family-table thead th {
+            background: #198754;
+            color: #fff;
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .family-table tbody td {
+            vertical-align: middle;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+    .owner-link {
+        text-decoration: none;
+        font-weight: 600;
+        color: #0d6efd;
+    }
+
+        .owner-link:hover {
+            text-decoration: underline;
+        }
+
+    .pagination-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+        .pagination-wrap .btn {
+            min-width: 42px;
+            border-radius: 8px;
+        }
+
+    .count-badge {
+        background: #e9f7ef;
+        color: #198754;
+        border-radius: 12px;
+        padding: 8px 14px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .families-title {
+            font-size: 26px;
+        }
+
+        .families-subtitle {
+            font-size: 14px;
+        }
+
+        .top-actions {
+            width: 100%;
+        }
+
+            .top-actions a {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+        .search-form {
+            max-width: 100%;
+        }
+
+            .search-form input,
+            .search-form button,
+            .search-form a {
+                width: 100%;
+            }
+
+        .count-badge {
+            width: 100%;
+            text-align: center;
+        }
+
+        .families-card {
+            padding: 14px !important;
+        }
+
+        .family-table thead th,
+        .family-table tbody td {
+            font-size: 13px;
+            padding: 10px 8px;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 px-3">
+
+    <div class="families-page-header">
+        <div>
+            <h1 class="families-title">Families</h1>
+            <p class="families-subtitle">Manage village family details, connections, and pets</p>
+        </div>
+
+        <div class="top-actions">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success page-btn">
+                <i class="bi bi-house-door-fill me-2"></i>Back to Home
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2 me-2"></i>Back to Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="families-card p-4 bg-white">
+
+        <div class="search-bar-wrap">
+            <form method="get" asp-action="Families" class="search-form">
+                <input type="text"
+                       name="searchText"
+                       value="@searchText"
+                       class="form-control"
+                       placeholder="Search by owner name" />
+
+                <button type="submit" class="btn btn-primary page-btn">
+                    <i class="bi bi-search me-1"></i>Search
+                </button>
+
+                <a asp-action="Families" class="btn btn-secondary page-btn">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Reset
+                </a>
+
+                <a asp-action="CreateFamily" class="btn btn-success page-btn">
+                    <i class="bi bi-plus-circle me-1"></i>Create New
+                </a>
+            </form>
+
+            <div class="count-badge">
+                Total Families: @totalCount
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-warning mb-0">
+                No families found.
+            </div>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table table-bordered table-striped align-middle family-table">
+                    <thead>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Phone</th>
+                            <th>Ration Card</th>
+                            <th>Acres</th>
+                            <th>Vehicles</th>
+                            <th>Own House</th>
+                            <th>Gas</th>
+                            <th>Water</th>
+                            <th>Pets</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="FamilyMembers" asp-route-familyId="@item.Id" class="owner-link">
+                                        @item.OwnerName
+                                    </a>
+                                </td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.RationCardNumber</td>
+                                <td>@item.TotalAcres</td>
+                                <td>@item.VehiclesCount</td>
+                                <td>@(item.OwnHouse ? "Yes" : "No")</td>
+                                <td>@(item.GasConnection ? "Yes" : "No")</td>
+                                <td>@(item.WaterConnection ? "Yes" : "No")</td>
+                                <td>@item.PetsDisplay</td>
+                                <td>
+                                    <a asp-action="EditFamily" asp-route-id="@item.Id" class="btn btn-warning btn-sm mb-1">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </a>
+                                    <a asp-action="DeleteFamily" asp-route-id="@item.Id" class="btn btn-danger btn-sm mb-1">
+                                        <i class="bi bi-trash me-1"></i>Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="pagination-wrap">
+                    <a asp-action="Families"
+                       asp-route-searchText="@searchText"
+                       asp-route-page="@(currentPage - 1)"
+                       class="btn btn-outline-secondary @(currentPage <= 1 ? "disabled" : "")">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <a asp-action="Families"
+                           asp-route-searchText="@searchText"
+                           asp-route-page="@i"
+                           class="btn @(i == currentPage ? "btn-success" : "btn-outline-success")">
+                            @i
+                        </a>
+                    }
+
+                    <a asp-action="Families"
+                       asp-route-searchText="@searchText"
+                       asp-route-page="@(currentPage + 1)"
+                       class="btn btn-outline-secondary @(currentPage >= totalPages ? "disabled" : "")">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,159 @@
+﻿@{
+   
+    ViewData["Title"] = "Create Profession";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .profession-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .profession-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 6px;
+    }
+
+    .profession-subtitle {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .profession-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        overflow: hidden;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1px solid #d9e2ec;
+    }
+
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.12);
+        }
+
+    .actions-bottom {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .submit-btn {
+        border-radius: 12px;
+        padding: 11px 18px;
+        font-weight: 600;
+        min-width: 130px;
+    }
+
+    @@media (max-width: 768px) {
+        .profession-title {
+            font-size: 26px;
+        }
+
+        .profession-subtitle {
+            font-size: 14px;
+        }
+
+        .top-actions {
+            width: 100%;
+        }
+
+            .top-actions a {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+        .profession-card {
+            padding: 14px !important;
+        }
+
+        .actions-bottom .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 px-3">
+
+    <div class="profession-page-header">
+        <div>
+            <h1 class="profession-title">Create Profession</h1>
+            <p class="profession-subtitle">Add a new profession name</p>
+        </div>
+
+        <div class="top-actions">
+            <a asp-controller="Admin" asp-action="Professions" class="btn btn-outline-success page-btn">
+                <i class="bi bi-arrow-left-circle me-2"></i>Back to Professions
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2 me-2"></i>Back to Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="profession-card p-4 bg-white">
+        <h2 class="section-title">Profession Information</h2>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <label class="form-label">Profession Name</label>
+                <input name="professionName"
+                       class="form-control"
+                       placeholder="Enter Profession Name" />
+            </div>
+
+            <div class="actions-bottom">
+                <button type="submit" class="btn btn-success submit-btn">
+                    <i class="bi bi-check-circle me-1"></i>Save
+                </button>
+
+                <a asp-controller="Admin" asp-action="Professions" class="btn btn-secondary submit-btn">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>

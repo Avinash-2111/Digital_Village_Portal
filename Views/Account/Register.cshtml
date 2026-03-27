@@ -1,0 +1,345 @@
+﻿@model MyVillageApp.Models.Account.RegisterModel
+
+@{
+    ViewData["Title"] = "Register App User";
+}
+
+<style>
+    .register-wrapper {
+        min-height: 100vh;
+    }
+
+    .register-card {
+        border: 0;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+        background: #fff;
+    }
+
+    .register-left {
+        background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
+        padding: 3rem;
+    }
+
+    .register-right {
+        background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+        min-height: 680px;
+        padding: 2rem;
+    }
+
+    .register-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0d6efd;
+    }
+
+    .register-subtitle {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        border: 1px solid #dbe4f0;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+            border-color: #86b7fe;
+        }
+
+    .register-btn {
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+
+    .slide-image {
+        max-height: 500px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 22px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .slide-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .slide-title {
+        font-weight: 700;
+        color: #0d6efd;
+    }
+
+    .gender-wrap {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    @@media (max-width: 991px) {
+        .register-left,
+        .register-right {
+            padding: 2rem;
+        }
+
+        .register-right {
+            min-height: 420px;
+        }
+
+        .slide-image {
+            max-height: 320px;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        .register-wrapper {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .register-card {
+            border-radius: 20px;
+        }
+
+        .register-left,
+        .register-right {
+            padding: 1.25rem;
+        }
+
+        .register-heading {
+            font-size: 1.55rem;
+        }
+
+        .register-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .register-right {
+            min-height: auto;
+        }
+
+        .slide-image {
+            max-height: 240px;
+            border-radius: 16px;
+        }
+
+        .slide-title {
+            font-size: 1.2rem;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 0.95rem;
+            padding: 0.8rem 0.9rem;
+        }
+
+        .register-btn {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<div class="container register-wrapper py-4 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+            <div class="card register-card">
+                <div class="row g-0">
+
+                    <!-- LEFT SIDE FORM -->
+                    <div class="col-lg-6 register-left">
+                        <div class="mb-4">
+                            <h2 class="register-heading mb-2">Register Jangiligonda App User</h2>
+                            <p class="register-subtitle mb-0">Create your account by filling all required details.</p>
+                        </div>
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-success rounded-4">
+                                @ViewBag.Message
+                            </div>
+                        }
+
+                        <form asp-action="Register" method="post" id="registerForm" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="UserName" class="form-label">Username <span class="text-danger">*</span></label>
+                                <input asp-for="UserName" class="form-control" placeholder="Enter username" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input asp-for="Email" id="email" class="form-control" placeholder="Enter email address" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <small id="emailError" class="text-danger d-block mt-1"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label">Password <span class="text-danger">*</span></label>
+                                <input asp-for="Password" type="password" id="password" class="form-control" placeholder="Enter strong password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                                <div id="passwordStrength" class="small mt-2"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="PhoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input asp-for="PhoneNumber" id="PhoneNumber" maxlength="10" class="form-control" placeholder="Enter 10 digit phone number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                <small id="phoneError" class="text-danger d-block mt-1"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                <div class="gender-wrap mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" asp-for="Gender" value="Male" id="genderMale" />
+                                        <label class="form-check-label" for="genderMale">Male</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" asp-for="Gender" value="Female" id="genderFemale" />
+                                        <label class="form-check-label" for="genderFemale">Female</label>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Age" class="form-label">Age <span class="text-danger">*</span></label>
+                                <input asp-for="Age" type="number" min="18" max="100" class="form-control" placeholder="Enter age" />
+                                <span asp-validation-for="Age" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary register-btn w-100">
+                                Register
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT SIDE IMAGE / SLIDESHOW -->
+                    <div class="col-lg-6 d-flex align-items-center justify-content-center register-right">
+                        <div class="text-center slide-box">
+                            <img id="registerSlide"
+                                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80"
+                                 alt="Registration"
+                                 class="img-fluid slide-image" />
+
+                            <div class="mt-4">
+                                <h4 class="slide-title">Welcome to Village Portal</h4>
+                                <p class="text-muted mb-0">Register and become part of the digital village community.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var emailInput = document.getElementById("email");
+        var passwordInput = document.getElementById("password");
+        var phoneInput = document.getElementById("PhoneNumber");
+        var emailError = document.getElementById("emailError");
+        var phoneError = document.getElementById("phoneError");
+        var passwordStrength = document.getElementById("passwordStrength");
+        var registerSlide = document.getElementById("registerSlide");
+
+        emailInput.addEventListener("keyup", function () {
+            var email = this.value.trim();
+            var pattern = /^[^ ]+@@[^ ]+\.[a-z]{2,10}$/i;
+
+            if (email === "") {
+                emailError.innerHTML = "Email is required";
+            }
+            else if (!pattern.test(email)) {
+                emailError.innerHTML = "Enter valid email format";
+            }
+            else {
+                emailError.innerHTML = "";
+            }
+        });
+
+        phoneInput.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, '');
+            var phone = this.value;
+            var phonePattern = /^[0-9]{10}$/;
+
+            if (phone === "") {
+                phoneError.innerHTML = "Phone number is required";
+            }
+            else if (!phonePattern.test(phone)) {
+                phoneError.innerHTML = "Phone number must be exactly 10 digits";
+            }
+            else {
+                phoneError.innerHTML = "";
+            }
+        });
+
+        passwordInput.addEventListener("keyup", function () {
+            var password = this.value;
+            var errors = [];
+
+            if (password.length < 8) errors.push("• Minimum 8 characters");
+            if (!/[A-Z]/.test(password)) errors.push("• At least 1 uppercase letter");
+            if (!/[a-z]/.test(password)) errors.push("• At least 1 lowercase letter");
+            if (!/[0-9]/.test(password)) errors.push("• At least 1 number");
+            if (!/[^A-Za-z0-9]/.test(password)) errors.push("• At least 1 special character");
+
+            if (password.length === 0) {
+                passwordStrength.innerHTML = "<span class='text-danger'>Password is required</span>";
+            }
+            else if (errors.length === 0) {
+                passwordStrength.innerHTML = "<span class='text-success fw-semibold'>Strong Password</span>";
+            }
+            else {
+                passwordStrength.innerHTML = "<span class='text-danger'>" + errors.join("<br>") + "</span>";
+            }
+        });
+
+        var registerImages = [
+            "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
+            "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=900&q=80"
+        ];
+
+        var slideIndex = 0;
+
+        setInterval(function () {
+            slideIndex++;
+            if (slideIndex >= registerImages.length) {
+                slideIndex = 0;
+            }
+
+            registerSlide.style.opacity = 0.2;
+
+            setTimeout(function () {
+                registerSlide.src = registerImages[slideIndex];
+                registerSlide.style.opacity = 1;
+            }, 400);
+
+        }, 3000);
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

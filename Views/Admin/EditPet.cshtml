@@ -1,0 +1,125 @@
+﻿@model MyVillageApp.Domain.Pets.Pet
+
+@{
+  
+    ViewData["Title"] = "Edit Pet";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .pet-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .pet-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #0d6efd;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .pet-card {
+        max-width: 600px;
+        margin: auto;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        border: none;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    @@media (max-width: 768px) {
+        .pet-title {
+            font-size: 24px;
+        }
+
+        .top-actions a {
+            width: 100%;
+            text-align: center;
+        }
+
+        .actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="pet-page-header">
+        <h2 class="pet-title">Edit Pet</h2>
+
+        <div class="top-actions">
+            <a asp-action="Pets" class="btn btn-outline-success page-btn">
+                <i class="bi bi-arrow-left-circle"></i> Back to Pets
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2"></i> Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="card pet-card p-4">
+
+        <form asp-action="EditPet" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="PetName" class="form-label fw-semibold">Pet Name</label>
+                <input asp-for="PetName" class="form-control" placeholder="Enter pet name" />
+                <span asp-validation-for="PetName" class="text-danger"></span>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Update
+                </button>
+
+                <a asp-action="Pets" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

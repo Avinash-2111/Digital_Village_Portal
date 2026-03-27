@@ -1,0 +1,244 @@
+﻿@model MyVillageApp.Models.Home.HomePageViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .home-section {
+        margin-bottom: 45px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #198754;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .announcement-box {
+        background: #fff3cd;
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin-bottom: 12px;
+        color: #856404;
+        font-weight: 600;
+    }
+
+    .media-slider {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 18px;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        background: #fff;
+        padding: 16px;
+    }
+
+    .media-slide {
+        display: none;
+        text-align: center;
+    }
+
+        .media-slide.active {
+            display: block;
+        }
+
+    .media-img,
+    .media-video {
+        width: 100%;
+        max-height: 480px;
+        object-fit: cover;
+        border-radius: 14px;
+    }
+
+    .arrow-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(25,135,84,.85);
+        color: #fff;
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .arrow-left {
+        left: 10px;
+    }
+
+    .arrow-right {
+        right: 10px;
+    }
+
+    .wish-subtitle,
+    .celebration-subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .media-img,
+        .media-video {
+            max-height: 240px;
+        }
+
+        .arrow-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- WISHES -->
+    @foreach (var wish in Model.Wishes)
+    {
+        <div class="home-section">
+            <h1 class="section-title">@wish.WishName</h1>
+            <p class="wish-subtitle">@wish.DayName - @wish.DateOfCreate.ToString("dd-MM-yyyy")</p>
+
+            @if (wish.MediaItems.Any())
+            {
+                <div class="media-slider slider-container">
+                    <button class="arrow-btn arrow-left" type="button" onclick="moveSlide(this, -1)">‹</button>
+                    <button class="arrow-btn arrow-right" type="button" onclick="moveSlide(this, 1)">›</button>
+
+                    @for (int i = 0; i < wish.MediaItems.Count; i++)
+                    {
+                        var media = wish.MediaItems[i];
+                        <div class="media-slide @(i == 0 ? "active" : "")">
+                            @if (media.MediaType == "Photo")
+                            {
+                                <img src="~/@media.FolderName/@media.FileName" class="media-img" />
+                            }
+                            else
+                            {
+                                <video controls class="media-video">
+                                    <source src="~/@media.FolderName/@media.FileName" type="video/mp4" />
+                                </video>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="home-section">
+        <h1 class="section-title">Announcements</h1>
+
+        @if (Model.Announcements.Any())
+        {
+            @foreach (var a in Model.Announcements.OrderByDescending(x => x.CreatedOn))
+            {
+                <div class="announcement-box">
+                    @a.Message
+                </div>
+            }
+        }
+        else
+        {
+            <div class="announcement-box">No announcements available</div>
+        }
+    </div>
+
+    <!-- CELEBRATIONS -->
+    @foreach (var c in Model.Celebrations)
+    {
+        <div class="home-section">
+            <h1 class="section-title">@c.CelebrationName</h1>
+            <p class="celebration-subtitle">Celebration Media</p>
+
+            @if (c.MediaItems.Any())
+            {
+                <div class="media-slider slider-container">
+                    <button class="arrow-btn arrow-left" type="button" onclick="moveSlide(this, -1)">‹</button>
+                    <button class="arrow-btn arrow-right" type="button" onclick="moveSlide(this, 1)">›</button>
+
+                    @for (int i = 0; i < c.MediaItems.Count; i++)
+                    {
+                        var media = c.MediaItems[i];
+                        <div class="media-slide @(i == 0 ? "active" : "")">
+                            @if (media.MediaType == "Photo")
+                            {
+                                <img src="~/@media.FolderName/@media.FileName" class="media-img" />
+                            }
+                            else
+                            {
+                                <video controls class="media-video">
+                                    <source src="~/@media.FolderName/@media.FileName" type="video/mp4" />
+                                </video>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    <!-- VILLAGE GALLERY -->
+    <div class="home-section">
+        <h1 class="section-title">Village Gallery</h1>
+
+        @if (Model.VillageGalleryItems.Any())
+        {
+            <div class="media-slider slider-container">
+                <button class="arrow-btn arrow-left" type="button" onclick="moveSlide(this, -1)">‹</button>
+                <button class="arrow-btn arrow-right" type="button" onclick="moveSlide(this, 1)">›</button>
+
+                @for (int i = 0; i < Model.VillageGalleryItems.Count; i++)
+                {
+                    var item = Model.VillageGalleryItems[i];
+                    <div class="media-slide @(i == 0 ? "active" : "")">
+                        @if (item.MediaType == "Photo")
+                        {
+                            <img src="~/villagegallery/@item.FileName" class="media-img" />
+                        }
+                        else
+                        {
+                            <video controls class="media-video">
+                                <source src="~/villagegallery/@item.FileName" type="video/mp4" />
+                            </video>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function moveSlide(button, step) {
+        const slider = button.closest('.slider-container');
+        const slides = slider.querySelectorAll('.media-slide');
+        let currentIndex = 0;
+
+        slides.forEach((slide, index) => {
+            if (slide.classList.contains('active')) {
+                currentIndex = index;
+            }
+            slide.classList.remove('active');
+        });
+
+        let newIndex = currentIndex + step;
+
+        if (newIndex < 0) newIndex = slides.length - 1;
+        if (newIndex >= slides.length) newIndex = 0;
+
+        slides[newIndex].classList.add('active');
+    }
+</script>

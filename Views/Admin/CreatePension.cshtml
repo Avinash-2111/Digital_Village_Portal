@@ -1,0 +1,173 @@
+﻿@model MyVillageApp.Domain.Pensions.Pension
+
+@{
+  
+    ViewData["Title"] = "Create Pension";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .pension-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .pension-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 6px;
+    }
+
+    .pension-subtitle {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .pension-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        overflow: hidden;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1px solid #d9e2ec;
+    }
+
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.12);
+        }
+
+    .actions-bottom {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .submit-btn {
+        border-radius: 12px;
+        padding: 11px 18px;
+        font-weight: 600;
+        min-width: 130px;
+    }
+
+    @@media (max-width: 768px) {
+        .pension-title {
+            font-size: 26px;
+        }
+
+        .pension-subtitle {
+            font-size: 14px;
+        }
+
+        .top-actions {
+            width: 100%;
+        }
+
+            .top-actions a {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+        .pension-card {
+            padding: 14px !important;
+        }
+
+        .actions-bottom .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 px-3">
+
+    <div class="pension-page-header">
+        <div>
+            <h1 class="pension-title">Create Pension</h1>
+            <p class="pension-subtitle">Add a new pension name and amount</p>
+        </div>
+
+        <div class="top-actions">
+            <a asp-controller="Admin" asp-action="Pensions" class="btn btn-outline-success page-btn">
+                <i class="bi bi-arrow-left-circle me-2"></i>Back to Pensions
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2 me-2"></i>Back to Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="pension-card p-4 bg-white">
+        <h2 class="section-title">Pension Information</h2>
+
+        <form asp-action="CreatePension" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Pension Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter pension name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Amount" class="form-label">Amount</label>
+                <input asp-for="Amount" class="form-control" placeholder="Enter pension amount" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+
+            <div class="actions-bottom">
+                <button type="submit" class="btn btn-success submit-btn">
+                    <i class="bi bi-check-circle me-1"></i>Save
+                </button>
+
+                <a asp-controller="Admin" asp-action="Pensions" class="btn btn-secondary submit-btn">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

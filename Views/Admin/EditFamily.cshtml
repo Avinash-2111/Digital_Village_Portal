@@ -1,0 +1,389 @@
+﻿@model MyVillageApp.Models.Admin.FamilyModel
+
+@{
+  
+    ViewData["Title"] = "Edit Family";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .family-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .family-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 6px;
+    }
+
+    .family-subtitle {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .family-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 16px;
+    }
+
+    .subsection-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 14px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+        padding: 10px 12px;
+        border: 1px solid #d9e2ec;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.12);
+        }
+
+    .checks-wrap {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+
+    .form-check {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 10px 14px 10px 34px;
+    }
+
+    .pets-box {
+        background: linear-gradient(135deg, #f0fdf4, #eff6ff);
+        border: 1px solid #dbeafe;
+        border-radius: 18px;
+        padding: 18px;
+        margin-top: 12px;
+    }
+
+    .pet-summary-box {
+        background: #ffffff;
+        border: 1px solid #dbeafe;
+        border-radius: 14px;
+        padding: 14px;
+        margin-bottom: 16px;
+    }
+
+    .pet-badge {
+        display: inline-block;
+        background: #e9f7ef;
+        color: #198754;
+        border: 1px solid #cdebd8;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 600;
+        margin: 4px 6px 0 0;
+        font-size: 14px;
+    }
+
+    .pet-row {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 12px 6px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+
+    .actions-bottom {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .submit-btn {
+        border-radius: 12px;
+        padding: 11px 18px;
+        font-weight: 600;
+        min-width: 130px;
+    }
+
+    @@media (max-width: 768px) {
+        .family-title {
+            font-size: 26px;
+        }
+
+        .family-subtitle {
+            font-size: 14px;
+        }
+
+        .top-actions {
+            width: 100%;
+        }
+
+            .top-actions a {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+        .family-card {
+            padding: 14px !important;
+        }
+
+        .checks-wrap {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .pet-row {
+            padding: 12px 10px;
+        }
+
+        .actions-bottom .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 px-3">
+
+    <div class="family-page-header">
+        <div>
+            <h1 class="family-title">Edit Family</h1>
+            <p class="family-subtitle">Update family information, connections, and pets</p>
+        </div>
+
+        <div class="top-actions">
+            <a asp-controller="Admin" asp-action="Families" class="btn btn-outline-success page-btn">
+                <i class="bi bi-arrow-left-circle me-2"></i>Back to Families
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2 me-2"></i>Back to Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="family-card p-4 bg-white">
+        <h2 class="section-title">Family Information</h2>
+
+        <form asp-action="EditFamily" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="OwnerName" class="form-label">Owner Name</label>
+                    <input asp-for="OwnerName" class="form-control" placeholder="Enter owner name" />
+                    <span asp-validation-for="OwnerName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="RationCardNumber" class="form-label">Ration Card Number</label>
+                    <input asp-for="RationCardNumber" class="form-control" placeholder="Enter ration card number" />
+                    <span asp-validation-for="RationCardNumber" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label asp-for="TotalAcres" class="form-label">Total Acres</label>
+                    <input asp-for="TotalAcres" class="form-control" placeholder="Acres" />
+                    <span asp-validation-for="TotalAcres" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label asp-for="VehiclesCount" class="form-label">Vehicles Count</label>
+                    <input asp-for="VehiclesCount" class="form-control" placeholder="Vehicles count" />
+                    <span asp-validation-for="VehiclesCount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="checks-wrap">
+                <div class="form-check">
+                    <input asp-for="OwnHouse" class="form-check-input" />
+                    <label asp-for="OwnHouse" class="form-check-label">Own House</label>
+                </div>
+
+                <div class="form-check">
+                    <input asp-for="GasConnection" class="form-check-input" />
+                    <label asp-for="GasConnection" class="form-check-label">Gas Connection</label>
+                </div>
+
+                <div class="form-check">
+                    <input asp-for="WaterConnection" class="form-check-input" />
+                    <label asp-for="WaterConnection" class="form-check-label">Water Connection</label>
+                </div>
+            </div>
+
+            <div class="pets-box">
+                <h3 class="subsection-title">
+                    <i class="bi bi-heart-fill me-2"></i>Pets
+                </h3>
+
+                @if (Model.Pets != null && Model.Pets.Any(x => x.PetId > 0))
+                {
+                    <div class="pet-summary-box">
+                        <div class="fw-semibold mb-2">Already Created Pets</div>
+
+                        @for (int i = 0; i < Model.Pets.Count; i++)
+                        {
+                            var selectedPet = Model.AvailablePets.FirstOrDefault(x => x.Value == Model.Pets[i].PetId.ToString());
+                            var selectedPetName = selectedPet != null ? selectedPet.Text : "Pet";
+
+                            if (Model.Pets[i].PetId > 0)
+                            {
+                                <span class="pet-badge">
+                                    @selectedPetName (@Model.Pets[i].PetCount)
+                                </span>
+                            }
+                        }
+                    </div>
+                }
+
+                <div id="petRows">
+                    @for (int i = 0; i < Model.Pets.Count; i++)
+                    {
+                        <div class="row mb-3 pet-row">
+                            <div class="col-md-6 mb-2 mb-md-0">
+                                <label class="form-label">Pet Name</label>
+                                <select name="Pets[@i].PetId" class="form-select">
+                                    <option value="">Select Pet</option>
+                                    @foreach (var pet in Model.AvailablePets)
+                                    {
+                                        if (Model.Pets[i].PetId.ToString() == pet.Value)
+                                        {
+                                            <option value="@pet.Value" selected>@pet.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@pet.Value">@pet.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 mb-2 mb-md-0">
+                                <label class="form-label">Pet Count</label>
+                                <input name="Pets[@i].PetCount"
+                                       value="@Model.Pets[i].PetCount"
+                                       class="form-control"
+                                       placeholder="Count" />
+                            </div>
+
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-danger w-100 remove-pet-row">
+                                    <i class="bi bi-x-circle me-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button type="button" id="addPetRow" class="btn btn-outline-primary mt-2">
+                    <i class="bi bi-plus-circle me-1"></i>Add Pet
+                </button>
+            </div>
+
+            <div class="actions-bottom">
+                <button type="submit" class="btn btn-primary submit-btn">
+                    <i class="bi bi-check-circle me-1"></i>Update
+                </button>
+
+                <a asp-controller="Admin" asp-action="Families" class="btn btn-secondary submit-btn">
+                    <i class="bi bi-arrow-left-circle me-1"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let petIndex = @Model.Pets.Count;
+
+        document.getElementById("addPetRow").addEventListener("click", function () {
+            const container = document.getElementById("petRows");
+
+            const html = `
+                        <div class="row mb-3 pet-row">
+                            <div class="col-md-6 mb-2 mb-md-0">
+                                <label class="form-label">Pet Name</label>
+                                <select name="Pets[${petIndex}].PetId" class="form-select">
+                                    <option value="">Select Pet</option>
+        @foreach (var pet in Model.AvailablePets)
+        {
+            <text><option value="@pet.Value">@pet.Text</option></text>
+        }
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 mb-2 mb-md-0">
+                                <label class="form-label">Pet Count</label>
+                                <input name="Pets[${petIndex}].PetCount" class="form-control" placeholder="Count" />
+                            </div>
+
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-danger w-100 remove-pet-row">
+                                    <i class="bi bi-x-circle me-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>`;
+
+            container.insertAdjacentHTML("beforeend", html);
+            petIndex++;
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-pet-row") || e.target.closest(".remove-pet-row")) {
+                const btn = e.target.closest(".remove-pet-row");
+                btn.closest(".pet-row").remove();
+            }
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,39 @@
+﻿@model MyVillageApp.Domain.Leaders.Leader
+
+@{
+
+    ViewData["Title"] = "Delete Leader";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4 rounded">
+
+        <h2 class="text-danger mb-4">Delete Leader</h2>
+
+        <h5>Are you sure you want to delete this leader?</h5>
+
+        <hr />
+
+        <div class="mb-3">
+            <strong>leader Name:</strong>
+            <span class="text-primary">@Model.Name</span>
+        </div>
+
+        <form asp-action="DeleteLeaderConfirmed" method="post">
+
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button type="submit" class="btn btn-danger me-2">
+                Yes, Delete
+            </button>
+
+            <a asp-action="Leaders" class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

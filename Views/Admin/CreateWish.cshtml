@@ -1,0 +1,44 @@
+﻿@{
+  
+    ViewData["Title"] = "Create Wish";
+}
+
+<div class="container-fluid mt-4 px-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+            <h1 class="text-success fw-bold mb-1">Create Wish</h1>
+            <p class="text-muted mb-0">Add wish with multiple images/videos</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a asp-action="Wishes" class="btn btn-outline-success">Back to Wishes</a>
+            <a asp-action="Dashboard" class="btn btn-outline-primary">Admin Dashboard</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+        <form asp-action="CreateWish" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Wish Name</label>
+                <input name="wishName" class="form-control" placeholder="Enter wish name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Day Name</label>
+                <input name="dayName" class="form-control" placeholder="Enter day name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Date</label>
+                <input type="date" name="dateOfCreate" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Images / Videos</label>
+                <input type="file" name="files" multiple class="form-control" accept="image/*,video/*" />
+            </div>
+
+            <button class="btn btn-success">Save</button>
+            <a asp-action="Wishes" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</div>

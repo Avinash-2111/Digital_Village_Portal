@@ -1,0 +1,276 @@
+﻿@{
+
+    ViewData["Title"] = "Create Village Gallery";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<style>
+    .gallery-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .gallery-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 6px;
+    }
+
+    .gallery-subtitle {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 16px;
+    }
+
+    .gallery-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        overflow: hidden;
+        max-width: 850px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-control,
+    .form-select,
+    textarea.form-control {
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1px solid #d9e2ec;
+    }
+
+        .form-control:focus,
+        .form-select:focus,
+        textarea.form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.12);
+        }
+
+    .preview-box {
+        background: linear-gradient(135deg, #f8fbff, #f0fdf4);
+        border: 1px solid #dbeafe;
+        border-radius: 18px;
+        padding: 18px;
+        text-align: center;
+    }
+
+    .preview-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 12px;
+    }
+
+    .preview-media {
+        width: 100%;
+        max-width: 320px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        background: #f8f9fa;
+    }
+
+    .actions-bottom {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .submit-btn {
+        border-radius: 12px;
+        padding: 11px 18px;
+        font-weight: 600;
+        min-width: 130px;
+    }
+
+    @@media (max-width: 768px) {
+        .gallery-title {
+            font-size: 26px;
+        }
+
+        .gallery-subtitle {
+            font-size: 14px;
+        }
+
+        .top-actions {
+            width: 100%;
+        }
+
+            .top-actions a {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+        .gallery-card {
+            padding: 14px !important;
+        }
+
+        .preview-media {
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .actions-bottom .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 px-3">
+
+    <div class="gallery-page-header">
+        <div>
+            <h1 class="gallery-title">Create Village Gallery</h1>
+            <p class="gallery-subtitle">Upload village photos and videos with preview</p>
+        </div>
+
+        <div class="top-actions">
+            <a asp-controller="Admin" asp-action="VillageGallery" class="btn btn-outline-success page-btn">
+                <i class="bi bi-arrow-left-circle me-2"></i>Back to Village Gallery
+            </a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-primary page-btn">
+                <i class="bi bi-speedometer2 me-2"></i>Back to Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="gallery-card p-4 bg-white">
+        <h2 class="section-title">Gallery Information</h2>
+
+        <form asp-action="CreateVillageGallery" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input name="title" class="form-control" placeholder="Enter gallery title" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Media Type</label>
+                <select name="mediaType" id="mediaType" class="form-select" onchange="togglePreviewType()">
+                    <option value="Photo">Photo</option>
+                    <option value="Video">Video</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload File</label>
+                <input type="file"
+                       name="file"
+                       id="fileInput"
+                       class="form-control"
+                       accept="image/*,video/*"
+                       onchange="previewGalleryFile(event)" />
+            </div>
+
+            <div class="preview-box">
+                <div class="preview-title">
+                    <i class="bi bi-image me-2"></i>Preview
+                </div>
+
+                <img id="imagePreview"
+                     src="https://via.placeholder.com/320x220?text=Image+Preview"
+                     class="preview-media" />
+
+                <video id="videoPreview"
+                       controls
+                       class="preview-media"
+                       style="display:none;">
+                </video>
+            </div>
+
+            <div class="actions-bottom">
+                <button type="submit" class="btn btn-success submit-btn">
+                    <i class="bi bi-check-circle me-1"></i>Save
+                </button>
+
+                <a asp-action="VillageGallery" class="btn btn-secondary submit-btn">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePreviewType() {
+            const mediaType = document.getElementById("mediaType").value;
+            const imagePreview = document.getElementById("imagePreview");
+            const videoPreview = document.getElementById("videoPreview");
+
+            if (mediaType === "Photo") {
+                imagePreview.style.display = "inline-block";
+                videoPreview.style.display = "none";
+            } else {
+                imagePreview.style.display = "none";
+                videoPreview.style.display = "inline-block";
+            }
+        }
+
+        function previewGalleryFile(event) {
+            const file = event.target.files[0];
+            const mediaType = document.getElementById("mediaType").value;
+            const imagePreview = document.getElementById("imagePreview");
+            const videoPreview = document.getElementById("videoPreview");
+
+            if (!file) return;
+
+            const fileURL = URL.createObjectURL(file);
+
+            if (mediaType === "Photo") {
+                imagePreview.src = fileURL;
+                imagePreview.style.display = "inline-block";
+                videoPreview.style.display = "none";
+                videoPreview.src = "";
+            } else {
+                videoPreview.src = fileURL;
+                videoPreview.style.display = "inline-block";
+                imagePreview.style.display = "none";
+                imagePreview.src = "";
+            }
+        }
+
+        togglePreviewType();
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

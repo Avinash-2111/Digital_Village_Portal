@@ -1,0 +1,39 @@
+﻿@model MyVillageApp.Domain.Gallery.VillageGallery
+
+@{
+
+    ViewData["Title"] = "Delete VillageGallery";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4 rounded">
+
+        <h2 class="text-danger mb-4">Delete Gallery</h2>
+
+        <h5>Are you sure you want to delete this photo?</h5>
+
+        <hr />
+
+        <div class="mb-3">
+            <strong>photo Title:</strong>
+            <span class="text-primary">@Model.Title</span>
+        </div>
+
+        <form asp-action="DeleteVillageGalleryConfirmed" method="post">
+
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button type="submit" class="btn btn-danger me-2">
+                Yes, Delete
+            </button>
+
+            <a asp-action="VillageGallery" class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

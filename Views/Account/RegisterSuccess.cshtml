@@ -1,0 +1,252 @@
+﻿@{
+    ViewData["Title"] = "Registration Successful";
+}
+
+<style>
+    .success-page {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+        padding: 30px 0 40px 0;
+    }
+
+    .success-card {
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+    }
+
+    .success-content {
+        padding: 3rem;
+        text-align: center;
+    }
+
+    .success-icon-wrap {
+        width: 95px;
+        height: 95px;
+        margin: 0 auto 20px auto;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35);
+    }
+
+    .success-icon {
+        font-size: 42px;
+        color: white;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .success-title {
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #15803d;
+        margin-bottom: 12px;
+    }
+
+    .success-subtitle {
+        font-size: 1.15rem;
+        color: #475569;
+        margin-bottom: 28px;
+    }
+
+    .success-desc {
+        color: #64748b;
+        font-size: 1rem;
+        max-width: 760px;
+        margin: 0 auto 28px auto;
+    }
+
+    .success-btns {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+
+    .success-btn {
+        min-width: 150px;
+        padding: 12px 20px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .slide-wrap {
+        background: #ffffff;
+    }
+
+    .slide-image {
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+        display: block;
+        transition: opacity 0.7s ease-in-out;
+    }
+
+    .slide-caption {
+        padding: 18px 20px;
+        background: linear-gradient(90deg, #16a34a, #0ea5e9);
+        color: white;
+        text-align: center;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 991px) {
+        .success-content {
+            padding: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+        }
+
+        .slide-image {
+            height: 360px;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        .success-page {
+            padding: 16px 0 24px 0;
+        }
+
+        .success-card {
+            border-radius: 18px;
+        }
+
+        .success-content {
+            padding: 1.25rem;
+        }
+
+        .success-icon-wrap {
+            width: 78px;
+            height: 78px;
+            margin-bottom: 16px;
+        }
+
+        .success-icon {
+            font-size: 34px;
+        }
+
+        .success-title {
+            font-size: 1.45rem;
+            line-height: 1.35;
+        }
+
+        .success-subtitle {
+            font-size: 1rem;
+            margin-bottom: 18px;
+        }
+
+        .success-desc {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .success-btns {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .success-btn {
+            width: 100%;
+            min-width: auto;
+        }
+
+        .slide-image {
+            height: 230px;
+        }
+
+        .slide-caption {
+            font-size: 0.95rem;
+            padding: 12px 14px;
+        }
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<div class="success-page">
+    <div class="container">
+        <div class="success-card">
+
+            <div class="success-content">
+                <div class="success-icon-wrap">
+                    <span class="success-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </span>
+                </div>
+
+                <h2 class="success-title">Your Registration Successfully Completed</h2>
+
+                <h4 class="success-subtitle">Welcome to our Jangiligonda App</h4>
+
+                <p class="success-desc">
+                    Your account has been created successfully. You can now login and access village services,
+                    family information, schemes, and other useful features in the portal.
+                </p>
+
+                <div class="success-btns">
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="btn btn-primary success-btn">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </a>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-success success-btn">
+                        <i class="bi bi-house-door-fill me-2"></i>Home
+                    </a>
+                </div>
+            </div>
+
+            <div class="slide-wrap">
+                <img id="villageSlide"
+                     class="slide-image"
+                     alt="Jangiligonda Village" />
+
+                <div class="slide-caption">
+                    Jangiligonda Village Portal – Digital Access for Everyone
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const villageImages = [
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=80"
+    ];
+
+    let index = 0;
+    const villageSlide = document.getElementById("villageSlide");
+
+    function changeVillageImage() {
+        villageSlide.style.opacity = 0.25;
+
+        setTimeout(() => {
+            villageSlide.src = villageImages[index];
+            villageSlide.style.opacity = 1;
+
+            index++;
+            if (index >= villageImages.length) {
+                index = 0;
+            }
+        }, 250);
+    }
+
+    changeVillageImage();
+    setInterval(changeVillageImage, 3000);
+</script>

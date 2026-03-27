@@ -1,0 +1,287 @@
+﻿@model MyVillageApp.Models.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    .login-wrapper {
+        min-height: 100vh;
+    }
+
+    .login-card {
+        border: 0;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+        background: #fff;
+    }
+
+    .login-left {
+        background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
+        padding: 3rem;
+    }
+
+    .login-right {
+        background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+        min-height: 620px;
+        padding: 2rem;
+    }
+
+    .main-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0d6efd;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .login-heading {
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #198754;
+    }
+
+    .login-subtitle {
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        border: 1px solid #dbe4f0;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+            border-color: #86b7fe;
+        }
+
+    .login-btn {
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+
+    .forgot-link {
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .slide-image {
+        max-height: 470px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 22px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+        transition: opacity 0.7s ease-in-out;
+    }
+
+    .right-caption {
+        margin-top: 1.25rem;
+    }
+
+        .right-caption h4 {
+            font-weight: 700;
+            color: #0d6efd;
+            margin-bottom: 0.5rem;
+        }
+
+        .right-caption p {
+            color: #6b7280;
+            margin-bottom: 0;
+        }
+
+    @@media (max-width: 991px) {
+        .login-left,
+        .login-right {
+            padding: 2rem;
+        }
+
+        .login-right {
+            min-height: 400px;
+        }
+
+        .slide-image {
+            max-height: 320px;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        .login-wrapper {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .login-card {
+            border-radius: 20px;
+        }
+
+        .login-left,
+        .login-right {
+            padding: 1.25rem;
+        }
+
+        .main-title {
+            font-size: 1.55rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-heading {
+            font-size: 1.45rem;
+        }
+
+        .login-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .login-right {
+            min-height: auto;
+        }
+
+        .slide-image {
+            max-height: 240px;
+            border-radius: 16px;
+        }
+
+        .form-control {
+            font-size: 0.95rem;
+            padding: 0.8rem 0.9rem;
+        }
+
+        .login-btn {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<div class="container login-wrapper py-4 py-md-5">
+
+    <h2 class="main-title">Jangiligonda Village App Login</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+            <div class="card login-card">
+                <div class="row g-0">
+
+                    <!-- LEFT LOGIN FORM -->
+                    <div class="col-lg-6 login-left">
+
+                        <div class="mb-4 text-center text-lg-start">
+                            <h3 class="login-heading mb-2">Welcome Back</h3>
+                            <p class="login-subtitle">Login to continue to your village portal account.</p>
+                        </div>
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success rounded-4">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger rounded-4">
+                                @ViewBag.Message
+                            </div>
+                        }
+
+                        <form asp-action="Login" method="post">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="Enter Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label">Password</label>
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="Enter Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary login-btn w-100">
+                                Login
+                            </button>
+
+                            <div class="text-center mt-3">
+                                <a asp-action="ForgotPasswordByPhone"
+                                   asp-controller="Account"
+                                   class="text-danger forgot-link">
+                                    Forgot Password?
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <!-- RIGHT SIDE IMAGE SLIDESHOW -->
+                    <div class="col-lg-6 d-flex align-items-center justify-content-center login-right">
+                        <div class="text-center w-100">
+                            <img id="loginSlide"
+                                 class="img-fluid slide-image"
+                                 alt="Village Slideshow" />
+
+                            <div class="right-caption">
+                                <h4>Digital Village Access</h4>
+                                <p>Securely login and access village services, family information, and public resources.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const loginImages = [
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80"
+    ];
+
+    let index = 0;
+    const loginSlide = document.getElementById("loginSlide");
+
+    function changeLoginImage() {
+        loginSlide.style.opacity = 0.25;
+
+        setTimeout(() => {
+            loginSlide.src = loginImages[index];
+            loginSlide.style.opacity = 1;
+
+            index++;
+            if (index >= loginImages.length) {
+                index = 0;
+            }
+        }, 250);
+    }
+
+    changeLoginImage();
+    setInterval(changeLoginImage, 3000);
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
