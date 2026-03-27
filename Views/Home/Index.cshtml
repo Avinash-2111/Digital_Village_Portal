@@ -138,27 +138,27 @@
     }
 
     <!-- ANNOUNCEMENTS -->
+    @if (Model.Announcements.Any())
+    {
     <div class="home-section">
+     
         <h1 class="section-title">Announcements</h1>
 
-        @if (Model.Announcements.Any())
-        {
+      
             @foreach (var a in Model.Announcements.OrderByDescending(x => x.CreatedOn))
             {
                 <div class="announcement-box">
                     @a.Message
                 </div>
             }
-        }
-        else
-        {
-            <div class="announcement-box">No announcements available</div>
-        }
-    </div>
-
+      
+      </div>
+    }
     <!-- CELEBRATIONS -->
-    @foreach (var c in Model.Celebrations)
+    @if (Model.Celebrations.Any())
     {
+      @foreach (var c in Model.Celebrations)
+      {
         <div class="home-section">
             <h1 class="section-title">@c.CelebrationName</h1>
             <p class="celebration-subtitle">Celebration Media</p>
@@ -188,8 +188,8 @@
                 </div>
             }
         </div>
+      }
     }
-
     <!-- VILLAGE GALLERY -->
     <div class="home-section">
         <h1 class="section-title">Village Gallery</h1>
